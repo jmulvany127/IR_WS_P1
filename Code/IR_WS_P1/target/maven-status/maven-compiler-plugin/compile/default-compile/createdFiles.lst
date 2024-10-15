@@ -1,2 +1,2 @@
-jar/Parsers/CranDocParser.class
-jar/model/CranDoc.class
+Parsers/CranDocParser.class
+model/CranDoc.class
