@@ -1,4 +1,7 @@
-model/Query.class
-Parsers/QueryParser.class
-Parsers/CranDocParser.class
+Main.class
+parsers/MyQueryParser.class
 model/CranDoc.class
+model/MyQuery.class
+searcher/Searcher.class
+parsers/CranDocParser.class
+indexer/Indexer.class

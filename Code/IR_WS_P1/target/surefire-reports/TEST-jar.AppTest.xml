@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="jar.AppTest" time="0.012" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="jar.AppTest" time="0.021" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="awt.toolkit" value="sun.awt.X11.XToolkit"/>
     <property name="java.specification.version" value="11"/>
     <property name="sun.cpu.isalist" value=""/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
-    <property name="java.class.path" value="/home/jsmulvany127/IR_WS_P1/IR_WS_P1/Code/IR_WS_P1/target/test-classes:/home/jsmulvany127/IR_WS_P1/IR_WS_P1/Code/IR_WS_P1/target/classes:/home/jsmulvany127/.m2/repository/junit/junit/3.8.1/junit-3.8.1.jar:/home/jsmulvany127/.m2/repository/org/apache/lucene/lucene-core/9.12.0/lucene-core-9.12.0.jar:"/>
+    <property name="java.class.path" value="/home/jsmulvany127/IR_WS_P1/IR_WS_P1/Code/IR_WS_P1/target/test-classes:/home/jsmulvany127/IR_WS_P1/IR_WS_P1/Code/IR_WS_P1/target/classes:/home/jsmulvany127/.m2/repository/junit/junit/3.8.1/junit-3.8.1.jar:/home/jsmulvany127/.m2/repository/org/apache/lucene/lucene-core/9.12.0/lucene-core-9.12.0.jar:/home/jsmulvany127/.m2/repository/org/apache/lucene/lucene-analyzers-common/8.11.4/lucene-analyzers-common-8.11.4.jar:/home/jsmulvany127/.m2/repository/org/apache/lucene/lucene-queryparser/8.11.1/lucene-queryparser-8.11.1.jar:/home/jsmulvany127/.m2/repository/org/apache/lucene/lucene-queries/8.11.1/lucene-queries-8.11.1.jar:/home/jsmulvany127/.m2/repository/org/apache/lucene/lucene-sandbox/8.11.1/lucene-sandbox-8.11.1.jar:"/>
     <property name="java.vm.vendor" value="Ubuntu"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="java.vendor.url" value="https://ubuntu.com/"/>
@@ -14,9 +14,9 @@
     <property name="os.name" value="Linux"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="/usr/lib/jvm/java-11-openjdk-amd64/lib"/>
-    <property name="sun.java.command" value="/home/jsmulvany127/IR_WS_P1/IR_WS_P1/Code/IR_WS_P1/target/surefire/surefirebooter8703248258113006514.jar /home/jsmulvany127/IR_WS_P1/IR_WS_P1/Code/IR_WS_P1/target/surefire 2024-10-15T10-49-48_414-jvmRun1 surefire12889438533279331439tmp surefire_011462404018634334855tmp"/>
+    <property name="sun.java.command" value="/home/jsmulvany127/IR_WS_P1/IR_WS_P1/Code/IR_WS_P1/target/surefire/surefirebooter13268685005186435418.jar /home/jsmulvany127/IR_WS_P1/IR_WS_P1/Code/IR_WS_P1/target/surefire 2024-10-15T20-03-03_889-jvmRun1 surefire158609403676609853tmp surefire_02655896656028282120tmp"/>
     <property name="jdk.debug" value="release"/>
-    <property name="surefire.test.class.path" value="/home/jsmulvany127/IR_WS_P1/IR_WS_P1/Code/IR_WS_P1/target/test-classes:/home/jsmulvany127/IR_WS_P1/IR_WS_P1/Code/IR_WS_P1/target/classes:/home/jsmulvany127/.m2/repository/junit/junit/3.8.1/junit-3.8.1.jar:/home/jsmulvany127/.m2/repository/org/apache/lucene/lucene-core/9.12.0/lucene-core-9.12.0.jar:"/>
+    <property name="surefire.test.class.path" value="/home/jsmulvany127/IR_WS_P1/IR_WS_P1/Code/IR_WS_P1/target/test-classes:/home/jsmulvany127/IR_WS_P1/IR_WS_P1/Code/IR_WS_P1/target/classes:/home/jsmulvany127/.m2/repository/junit/junit/3.8.1/junit-3.8.1.jar:/home/jsmulvany127/.m2/repository/org/apache/lucene/lucene-core/9.12.0/lucene-core-9.12.0.jar:/home/jsmulvany127/.m2/repository/org/apache/lucene/lucene-analyzers-common/8.11.4/lucene-analyzers-common-8.11.4.jar:/home/jsmulvany127/.m2/repository/org/apache/lucene/lucene-queryparser/8.11.1/lucene-queryparser-8.11.1.jar:/home/jsmulvany127/.m2/repository/org/apache/lucene/lucene-queries/8.11.1/lucene-queries-8.11.1.jar:/home/jsmulvany127/.m2/repository/org/apache/lucene/lucene-sandbox/8.11.1/lucene-sandbox-8.11.1.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="/home/jsmulvany127"/>
     <property name="user.language" value="en"/>
@@ -30,7 +30,7 @@
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.awt.graphicsenv" value="sun.awt.X11GraphicsEnvironment"/>
-    <property name="surefire.real.class.path" value="/home/jsmulvany127/IR_WS_P1/IR_WS_P1/Code/IR_WS_P1/target/surefire/surefirebooter8703248258113006514.jar"/>
+    <property name="surefire.real.class.path" value="/home/jsmulvany127/IR_WS_P1/IR_WS_P1/Code/IR_WS_P1/target/surefire/surefirebooter13268685005186435418.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="11.0.24+8-post-Ubuntu-1ubuntu322.04"/>
     <property name="user.name" value="jsmulvany127"/>
@@ -56,5 +56,5 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="55.0"/>
   </properties>
-  <testcase name="testApp" classname="jar.AppTest" time="0.002"/>
+  <testcase name="testApp" classname="jar.AppTest" time="0.004"/>
 </testsuite>
