@@ -24,15 +24,20 @@ public class CranDocParser {
         List<CranDoc> cranDocs = new ArrayList();
         Object[] lineDoc;
 
+        
         try (BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(path))) {
             String docLine;
+            //read first line
             docLine =bufferedReader.readLine();
             while (docLine  != null){
-                //System.out.println("readDoc: " + docLine);
+                //start of doc found, start parsing
                 if (docLine.startsWith(DOC_ID)){
                     lineDoc = docParser(bufferedReader, docLine);
-                    docLine = (String) lineDoc[0];
+                    
+                    docLine = (String) lineDoc[0];//unpack first line of new doc
+                    
                     cranDocs.add((CranDoc) lineDoc[1]);
+                // if problem with doc formatting, this prevents loops/stuck
                 }else{docLine =bufferedReader.readLine();}
             }
 
@@ -42,53 +47,53 @@ public class CranDocParser {
         return cranDocs;
     }
 
+    //takes buffered reader and the first line of doc
+    //returns an object containing and cran doc and the first line of the next doc 
     private static Object[] docParser( BufferedReader bufferedReader, String docLine) throws IOException{
+        
         CranDoc cranDoc = new CranDoc();
         cranDoc.setId(docLine.substring(3));
 
-        
         Object[] lineSection;
 
-        System.out.println("docID: " + docLine);
-     
+        //adds each field to the cran doc
         while (docLine  != null){
-            //System.out.println("docparse: " + docLine);
             if (docLine.startsWith(TITLE)) {
                 lineSection = parseSection(bufferedReader, AUTHOR);
                 docLine = (String)lineSection[0];
-
-                cranDoc.setTitle((String)lineSection[1]); // Implement this method
+                cranDoc.setTitle((String)lineSection[1]); 
 
             } else if (docLine.startsWith(AUTHOR)) {
                 lineSection = parseSection(bufferedReader, BIB);
                 docLine = (String)lineSection[0];
+                cranDoc.setAuthor((String)lineSection[1]); 
 
-                cranDoc.setAuthor((String)lineSection[1]); // Implement this method
             } else if (docLine.startsWith(WORDS)) {
                 lineSection = parseSection(bufferedReader, DOC_ID);
                 docLine = (String)lineSection[0];
+                cranDoc.setWords((String)lineSection[1]); 
 
-                cranDoc.setWords((String)lineSection[1]); // Implement this method
-                break; // End of document, exit the loop
+                break; // End of document, exit 
             } else{
-                docLine =bufferedReader.readLine();
+                docLine =bufferedReader.readLine(); // for the Bibliography field/errors in doc format, prevents loops
             }
 
         }
         return new Object[]{docLine, cranDoc};
     }
 
+    //takes buffered line reader and indicator of next section of document
+    // returns an object containg a section of the document and the first line of thenext section
     private static Object[] parseSection(BufferedReader bufferedReader, String nextSection) throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
         String docLine;
+
+        //build string from the document section
         while ((docLine = bufferedReader.readLine()) != null && !docLine.startsWith(nextSection)) {
-            //System.out.println("parseSec: " + docLine);
             stringBuilder.append(docLine).append(" ");
         }
-        //System.out.println("parseSec2: " + docLine);
+
         String section = stringBuilder.toString().trim();
-
-
         return new Object[]{docLine, section};  // Return trimmed section
 
     }

@@ -1,2 +1,4 @@
+model/Query.class
+Parsers/QueryParser.class
 Parsers/CranDocParser.class
 model/CranDoc.class

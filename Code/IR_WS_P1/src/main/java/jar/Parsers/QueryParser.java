@@ -1,6 +1,6 @@
 package Parsers;
 
-import model.CranDoc;
+import model.Query;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -9,110 +9,94 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CranDocParser {
+public class QueryParser {
 
-    // Constants for document indicators
-    private static final String  DOC_ID = ".I";
-    private static final String TITLE  = ".T";
-    private static final String BIB  = ".B";
-    private static final String AUTHOR  = ".A";
+    // Constants for query indicators
+    private static final String  QUERY_ID = ".I";
     private static final String WORDS  = ".W";
     
-    //takes path to cran docs and returns list of of cran doc objects
-    public static List<CranDoc> docReader(String path){
+    //takes path to query doc and returns list of of query objects
+    public static List<Query> queryReader(String path){
 
-        List<CranDoc> cranDocs = new ArrayList();
-        Object[] lineDoc;
+        List<Query> queries = new ArrayList();
+        Object[] lineQuery;
 
         try (BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(path))) {
-            String docLine;
-            docLine =bufferedReader.readLine();
-            while (docLine  != null){
-                //System.out.println("readDoc: " + docLine);
-                if (docLine.startsWith(DOC_ID)){
-                    lineDoc = docParser(bufferedReader, docLine);
-                    docLine = (String) lineDoc[0];
-                    cranDocs.add((CranDoc) lineDoc[1]);
-                }else{docLine =bufferedReader.readLine();}
+            String queryLine;
+            //read first line
+            queryLine =bufferedReader.readLine();
+            while (queryLine  != null){
+                //start of query found, start parsing
+                if (queryLine.startsWith(QUERY_ID)){
+                    lineQuery = queryParser(bufferedReader, queryLine);
+                    queryLine = (String) lineQuery[0];//unpack first line of new query
+                    queries.add((Query) lineQuery[1]);
+                // if problem with query formatting, this prevents loops/stuck
+                }else{queryLine =bufferedReader.readLine();}
             }
-
         } catch (IOException e) {
             System.err.println("Error reading the file: " + e.getMessage());
         }
-        return cranDocs;
+        return queries;
     }
 
-    private static Object[] docParser( BufferedReader bufferedReader, String docLine) throws IOException{
-        CranDoc cranDoc = new CranDoc();
-        cranDoc.setId(docLine.substring(3));
-
+    //takes buffered reader and the first line of query
+    //returns an object containing and query and the first line of the next query 
+    private static Object[] queryParser( BufferedReader bufferedReader, String queryLine) throws IOException{
         
+        Query query= new Query();
+        query.setId(queryLine.substring(3));
+
         Object[] lineSection;
 
-        System.out.println("docID: " + docLine);
-     
-        while (docLine  != null){
-            //System.out.println("docparse: " + docLine);
-            if (docLine.startsWith(TITLE)) {
-                lineSection = parseSection(bufferedReader, AUTHOR);
-                docLine = (String)lineSection[0];
+        //adds each field to the query
+        while (queryLine  != null){
+            if (queryLine.startsWith(WORDS)) {
+                lineSection = parseSection(bufferedReader, QUERY_ID);
+                queryLine = (String)lineSection[0];
+                query.setWords((String)lineSection[1]); 
 
-                cranDoc.setTitle((String)lineSection[1]); // Implement this method
-
-            } else if (docLine.startsWith(AUTHOR)) {
-                lineSection = parseSection(bufferedReader, BIB);
-                docLine = (String)lineSection[0];
-
-                cranDoc.setAuthor((String)lineSection[1]); // Implement this method
-            } else if (docLine.startsWith(WORDS)) {
-                lineSection = parseSection(bufferedReader, DOC_ID);
-                docLine = (String)lineSection[0];
-
-                cranDoc.setWords((String)lineSection[1]); // Implement this method
-                break; // End of document, exit the loop
+                break; // End of query, exit 
             } else{
-                docLine =bufferedReader.readLine();
+                queryLine =bufferedReader.readLine(); // for the Bibliography field/errors in query format, prevents loops
             }
 
         }
-        return new Object[]{docLine, cranDoc};
+        return new Object[]{queryLine, query};
     }
 
+    //takes buffered line reader and indicator of next section of dquery
+    // returns an object containg a section of the query and the first line of the next section
     private static Object[] parseSection(BufferedReader bufferedReader, String nextSection) throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
-        String docLine;
-        while ((docLine = bufferedReader.readLine()) != null && !docLine.startsWith(nextSection)) {
-            //System.out.println("parseSec: " + docLine);
-            stringBuilder.append(docLine).append(" ");
+        String queryLine;
+        //build string from the query section
+        while ((queryLine = bufferedReader.readLine()) != null && !queryLine.startsWith(nextSection)) {
+            stringBuilder.append(queryLine).append(" ");
         }
-        //System.out.println("parseSec2: " + docLine);
         String section = stringBuilder.toString().trim();
-
-
-        return new Object[]{docLine, section};  // Return trimmed section
+        return new Object[]{queryLine, section};  // Return trimmed section
 
     }
 
 
 
-    public static void printCranDoc(CranDoc cranDoc) {
-        System.out.println("Cran Doc:");
-        System.out.println("ID: " + cranDoc.getId());
-        System.out.println("Title: " + cranDoc.getTitle());
-        System.out.println("Author: " + cranDoc.getAuthor());
-        System.out.println("Words: " + cranDoc.getWords());
+    public static void printQuery(Query query) {
+        System.out.println("Query:");
+        System.out.println("ID: " + query.getId());
+        System.out.println("Words: " + query.getWords());
     }
 
     // Main method for testing
     public static void main(String[] args) {
-        String filePath = "/home/jsmulvany127/IR_WS_P1/IR_WS_P1/Code/cranfield/cran.all.1400"; // Replace with your file path
-        List<CranDoc> cranDocs = docReader(filePath);
-        CranDoc cranDoc;
+        String filePath = "/home/jsmulvany127/IR_WS_P1/IR_WS_P1/Code/cranfield/cran.qry"; // Replace with your file path
+        List<Query> queries = queryReader(filePath);
+        Query query;
         for (int i = 0; i < 10; i++){        
-            cranDoc = cranDocs.get(i);
-            printCranDoc(cranDoc);
+            query= queries.get(i);
+            printQuery(query);
         }
-        // Display parsed documents
+        // Display parsed querys
 
     }
 }

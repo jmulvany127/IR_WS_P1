@@ -93,7 +93,7 @@
               <createDependencyReducedPom>false</createDependencyReducedPom>
               <transformers>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <mainClass>Parsers.CranDocParser</mainClass>
+                  <mainClass>Parsers.QueryParser</mainClass>
                 </transformer>
               </transformers>
             </configuration>
