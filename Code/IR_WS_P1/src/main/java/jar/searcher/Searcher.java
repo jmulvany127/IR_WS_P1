@@ -28,9 +28,9 @@ public class Searcher {
     private IndexSearcher searcher;
     private Analyzer analyzer;
 
-    public Searcher(String indexPath) throws IOException {
+    public Searcher(String indexPath, Analyzer newAnalyzer) throws IOException {
         searcher = new IndexSearcher(DirectoryReader.open(FSDirectory.open(Paths.get(indexPath))));
-        analyzer = new EnglishAnalyzer();
+        analyzer = newAnalyzer;
     }
 
     public void searchCranQueries(List<MyQuery> queries, String outputFilePath) throws Exception {

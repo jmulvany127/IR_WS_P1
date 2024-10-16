@@ -24,10 +24,10 @@ public class Indexer {
     private Directory indexDirectory;
     private Analyzer analyzer;
 
-    public Indexer(String indexPath) throws IOException {
+    public Indexer(String indexPath, Analyzer newAnalyzer) throws IOException {
         // Create the index directory
         indexDirectory = FSDirectory.open(Paths.get(indexPath));
-        analyzer = new EnglishAnalyzer(); 
+        analyzer = newAnalyzerAnalyzer; 
     }
 
     public void indexCranDocs(List<CranDoc> cranDocs) throws IOException {

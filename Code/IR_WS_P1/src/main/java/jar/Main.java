@@ -29,7 +29,19 @@ import java.util.List;
 
 public class Main{
     public static void main(String[] args) {
-        String indexPath = "/home/jsmulvany127/IR_WS_P1/IR_WS_P1/Code/IR_WS_P1/Index";
+        //String CustomAnalyzerIndexPath = "Code/IR_WS_P1/Indexes/CustomAnalyzerIndex";
+        //String EnglishAnalyzerIndexPath = "Code/IR_WS_P1/Indexes/EnglishAnalyzerIndex";
+        //String WhitespaceAnalyzerIndexPath = "Code/IR_WS_P1/Indexes/WhitespaceAnalyzerIndex";
+        //String StandardAnalyzerIndexPath = "Code/IR_WS_P1/Indexes/StandardAnalyzerIndex";
+      
+        Object[][] analyzerObjects = {
+            //[,,"Code/IR_WS_P1/Indexes/CustomAnalyzerIndex"],
+            ["EnglishAnalyzer",new EnglishAnalyzer(),"Code/IR_WS_P1/Indexes/EnglishAnalyzerIndex", "/home/jsmulvany127/IR_WS_P1/IR_WS_P1/Code/results/englishAnSearchResults.txt"],
+            ["WhitespaceAnalyzer",new WhitespaceAnalyzer(),"Code/IR_WS_P1/Indexes/WhitespaceAnalyzerIndex","/home/jsmulvany127/IR_WS_P1/IR_WS_P1/Code/results/whitespaceAnSearchResults.txt"],
+            ["StandardAnalyzer",new StandardAnalyzer(),"Code/IR_WS_P1/Indexes/StandardAnalyzerIndex","/home/jsmulvany127/IR_WS_P1/IR_WS_P1/Code/results/standardAnSearchResults.txt"]
+        };
+
+                
         String cranDocPath = "/home/jsmulvany127/IR_WS_P1/IR_WS_P1/Code/cranfield/cran.all.1400";
         String queryPath = "/home/jsmulvany127/IR_WS_P1/IR_WS_P1/Code/cranfield/cran.qry";
         String searchResultsPath = "/home/jsmulvany127/IR_WS_P1/IR_WS_P1/Code/results/results.txt";
@@ -41,25 +53,30 @@ public class Main{
   
         List<MyQuery> queries = MyQueryParser.queryReader(queryPath);
         List<CranDoc> cranDocs = CranDocParser.docReader(cranDocPath);
+      
+        for (Object[] analyzerObject : analyzerObjects){
+            try {
+                Indexer indexer = new Indexer((String) analyzerObject[2], (Analyzer) analyzerObject[1]);
+                indexer.indexCranDocs(cranDocs);
+                indexer.close();
+                System.out.println("Indexing completed successfully.");
+            } catch (IOException e) {
+                System.err.println("Error during indexing: " + e.getMessage());
+            }
         
-        try {
-            Indexer indexer = new Indexer(indexPath);
-            indexer.indexCranDocs(cranDocs);
-            indexer.close();
-            System.out.println("Indexing completed successfully.");
-        } catch (IOException e) {
-            System.err.println("Error during indexing: " + e.getMessage());
-        }
 
         // Step 3: Search the index using the queries and save results to a file
-        try {
-            Searcher searcher = new Searcher(indexPath);  // Initialize the searcher with the index path
-            searcher.searchCranQueries(queries, searchResultsPath);  // Perform the search and write results to file
-            searcher.close();
-            System.out.println("Search completed and results written to " + searchResultsPath);
-        } catch (Exception e) {
-            System.err.println("Error during search: " + e.getMessage());
+            try {
+                Searcher searcher = new Searcher((String) analyzerObject[2], (Analyzer) analyzerObject[1]);  // Initialize the searcher with the index path
+                searcher.searchCranQueries(queries, analyzerObject[3]);  // Perform the search and write results to file
+              
+                searcher.close();
+                System.out.println("Search completed and results written to " + searchResultsPath);
+            } catch (Exception e) {
+                System.err.println("Error during search: " + e.getMessage());
+            }
         }
+
 
         try {
             Eval.trecEval(trecEvalPath, qrelFilePath, searchResultsPath,trecEvalResultsPath);
