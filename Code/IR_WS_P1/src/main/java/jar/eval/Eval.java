@@ -41,8 +41,19 @@ public class Eval{
             System.out.println("Trec_eval encountered an error. Exit code: " + exitCode);
         }
 
-   
     }
+
+    //public static Object[] parseResults(String trecEvalResultsPath){
+       // BufferedReader bufferedReader;
+
+
+
+
+
+
+
+
+   // }
 
 
 

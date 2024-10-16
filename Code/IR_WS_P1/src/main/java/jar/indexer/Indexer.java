@@ -4,6 +4,8 @@ import model.CranDoc;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.document.Document;
@@ -27,7 +29,7 @@ public class Indexer {
     public Indexer(String indexPath, Analyzer newAnalyzer) throws IOException {
         // Create the index directory
         indexDirectory = FSDirectory.open(Paths.get(indexPath));
-        analyzer = newAnalyzerAnalyzer; 
+        analyzer = newAnalyzer; 
     }
 
     public void indexCranDocs(List<CranDoc> cranDocs) throws IOException {
@@ -49,7 +51,7 @@ public class Indexer {
     }
 
     public void close() throws IOException {
-        analyzer.close();
+        
         indexDirectory.close();
     }
 }

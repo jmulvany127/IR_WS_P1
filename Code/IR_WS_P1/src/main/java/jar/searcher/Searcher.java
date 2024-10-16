@@ -19,6 +19,10 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.FSDirectory;
 
+import org.apache.lucene.search.similarities.Similarity;
+import org.apache.lucene.search.similarities.BM25Similarity;
+import org.apache.lucene.search.similarities.ClassicSimilarity; 
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -28,9 +32,10 @@ public class Searcher {
     private IndexSearcher searcher;
     private Analyzer analyzer;
 
-    public Searcher(String indexPath, Analyzer newAnalyzer) throws IOException {
+    public Searcher(String indexPath, Analyzer newAnalyzer, Similarity similarity ) throws IOException {
         searcher = new IndexSearcher(DirectoryReader.open(FSDirectory.open(Paths.get(indexPath))));
         analyzer = newAnalyzer;
+        this.searcher.setSimilarity(similarity);
     }
 
     public void searchCranQueries(List<MyQuery> queries, String outputFilePath) throws Exception {
@@ -69,7 +74,6 @@ public class Searcher {
 
     public void close() throws IOException {
         searcher.getIndexReader().close();
-        analyzer.close();
     }
 
 }
