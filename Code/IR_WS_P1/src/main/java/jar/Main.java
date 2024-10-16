@@ -59,12 +59,12 @@ public class Main{
         List<CranDoc> cranDocs = CranDocParser.docReader(cranDocPath);
 
         
-
+        
         for (Object[] analyzerObject : analyzerObjects){
 
             String analyzerName = (String) analyzerObject[0];
             Analyzer analyzer = (Analyzer) analyzerObject[1];
-
+        
             for (Object[] similarityObject : similarityObjects){
             
                 String similarityName = (String) similarityObject[0];
@@ -79,7 +79,7 @@ public class Main{
                     Indexer indexer = new Indexer(indexPath, analyzer);
                     indexer.indexCranDocs(cranDocs);
                     indexer.close();
-                    System.out.println("Indexing completed successfully.");
+                    //System.out.println("Indexing completed successfully.");
                 } catch (IOException e) {
                     System.err.println("Error during indexing: " + e.getMessage());
                 }
@@ -91,7 +91,7 @@ public class Main{
                     searcher.searchCranQueries(queries, searchResultPath);  // Perform the search and write results to file
                 
                     searcher.close();
-                    System.out.println("Search completed and results written to " + searchResultPath + ".");
+                    //System.out.println("Search completed and results written to " + searchResultPath + ".");
                 } catch (Exception e) {
                     System.err.println("Error during search: " + e.getMessage());
                 }
@@ -101,16 +101,11 @@ public class Main{
                 } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
                 }
-                
-            
+                String[] searcherType = {similarityName, analyzerName};
+                Eval.parseResults(evalResultPath, searcherType );
             }
         analyzer.close();
         }
     }
 }
 
-/*
-./trec_eval -q /home/jsmulvany127/IR_WS_P1/IR_WS_P1/Code/cranfield/cranqrel /home/jsmulvany127/IR_WS_P1/IR_WS_P1/Code/results/results.txt
-
-
-*/
