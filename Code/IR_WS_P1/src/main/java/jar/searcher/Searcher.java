@@ -35,8 +35,8 @@ public class Searcher {
 
     public void searchCranQueries(List<MyQuery> queries, String outputFilePath) throws Exception {
         QueryParser parser = new QueryParser("words", analyzer); // "words" field corresponds to document content
-        FileWriter writer = new FileWriter(outputFilePath);
-
+        FileWriter writer = new FileWriter(outputFilePath, false);
+        int queryId =1;
         for (MyQuery query : queries) {
             // Process each query, assuming customQuery.getText() returns the raw query text
             String escapedQueryText = QueryParser.escape(query.getText());
@@ -46,21 +46,24 @@ public class Searcher {
             TopDocs results = searcher.search(luceneQuery, 50);
 
             // Write the results to a file in the format needed by trec_eval
-            writeTopResults(writer, query.getId(), results);
+            writeTopResults(writer, Integer.toString(queryId), results);
+            queryId++;
         }
 
         writer.close();
     }
 
     private void writeTopResults(FileWriter writer, String queryId, TopDocs results) throws IOException {
+        int rank = 0;
         for (ScoreDoc scoreDoc : results.scoreDocs) {
             Document doc = searcher.doc(scoreDoc.doc);
             String docId = doc.get("id");  // Ensure your CranDoc ID is stored in the index as "id"
             float score = scoreDoc.score;
+            rank++;
 
             // Write in the format required for trec_eval: query_id Q0 doc_id rank score STANDARD
             writer.write(String.format("%s Q0 %s %d %.4f STANDARD\n",
-                    queryId, docId, scoreDoc.doc + 1, score));  // Adjust rank as needed
+                    queryId, docId, rank, score));  // Adjust rank as needed
         }
     }
 

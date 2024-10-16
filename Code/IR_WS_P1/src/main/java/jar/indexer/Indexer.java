@@ -32,6 +32,7 @@ public class Indexer {
 
     public void indexCranDocs(List<CranDoc> cranDocs) throws IOException {
         IndexWriterConfig config = new IndexWriterConfig(analyzer);
+        config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
         IndexWriter writer = new IndexWriter(indexDirectory, config);
 
         for (CranDoc cranDoc : cranDocs) {
