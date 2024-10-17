@@ -13,7 +13,6 @@ import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.store.Directory;
-//import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 
@@ -25,18 +24,22 @@ public class Indexer {
 
     private Directory indexDirectory;
     private Analyzer analyzer;
-
+    
+    //indxer constructor takes a directory to store index and an analyser to use
     public Indexer(String indexPath, Analyzer newAnalyzer) throws IOException {
-        // Create the index directory
+     
         indexDirectory = FSDirectory.open(Paths.get(indexPath));
         analyzer = newAnalyzer; 
     }
-
+    
+    //takes a list of Crandocs, creates a lucene document for each and adds it to the index
     public void indexCranDocs(List<CranDoc> cranDocs) throws IOException {
+        //create index writer with config file set to use specified analyser
         IndexWriterConfig config = new IndexWriterConfig(analyzer);
         config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
         IndexWriter writer = new IndexWriter(indexDirectory, config);
 
+        //adds each of the crandocs fields to the lucene index documents
         for (CranDoc cranDoc : cranDocs) {
             Document document = new Document();
             document.add(new StringField("id", cranDoc.getId(), Field.Store.YES));
@@ -51,7 +54,7 @@ public class Indexer {
     }
 
     public void close() throws IOException {
-        
+       
         indexDirectory.close();
     }
 }

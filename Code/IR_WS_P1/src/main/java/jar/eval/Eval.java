@@ -20,45 +20,44 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class Eval{
-
+    //builds command to call trec_eval and pipe output to text file
     public static void trecEval(String trecEvalPath, String qrelFilePath, String searchResultsPath, String trecEvalResultsPath) throws IOException, InterruptedException{
     
-        // Build the command to call trec_eval
+        // Build the command adn set output destination
         ProcessBuilder processBuilder = new ProcessBuilder(trecEvalPath, "-q", qrelFilePath, searchResultsPath);
-
-        // Redirect the output of trec_eval to a file
         processBuilder.redirectOutput(new File(trecEvalResultsPath));
 
-        // Start the process
+        // Start the process, wait and handle errors
         Process process = processBuilder.start();
-
-        // Wait for the process to finish
         int exitCode = process.waitFor();
-
         if (exitCode != 0) {
             System.out.println("Trec_eval encountered an error. Exit code: " + exitCode);
         }
 
     }
-
+    
+    //takes results of trec_eval and extracts relvant statistics for project
     public static void parseResults(String trecEvalResultsPath, String[] searcherType){
         
+        //declare variables for stats
         String mapValue = null;
         String gmMapValue = null;
         String P_5Value = null;
         String num_relValue= null;       	
         String num_rel_retValue = null;       
         double recall;   	
-
+        
+        //read each line of file and assign values to stat variables
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(trecEvalResultsPath))) {
             String line;
             String[] parts;
 
-            // Read each line in the file
+            
             while ((line = bufferedReader.readLine()) != null) {
                 parts = line.trim().split("\\s+"); // Split by whitespace
                 
-                if (parts[1].equals("all")) {
+                // checks for all in cnetral column then for the right stat type in the first column
+                if (parts[1].equals("all")) { 
                     if (parts[0].equals("map")) {
                         mapValue = parts[2]; 
                     } else if (parts[0].equals("gm_map")) {
@@ -72,10 +71,12 @@ public class Eval{
                     }
                 }
             }
-
+            
+            //calculate recall as number of relevant docs retireved over number of relvant docs in cran q rel
             recall = Double.parseDouble(num_rel_retValue)/ Double.parseDouble(num_relValue);
             String formattedRecall = String.format("%.4f", recall);
-                
+            
+            //print gathered statistics
             System.out.println("Results for similarity scoring: " + searcherType[0]+ ", and analyzer: " + searcherType[1]+ ":");
             System.out.println("map: " +  mapValue);
             System.out.println("gm_map: " + gmMapValue);
