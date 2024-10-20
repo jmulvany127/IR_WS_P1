@@ -1,6 +1,6 @@
 # Information Retrieval and Web Search Project 1 - TCD Year 5
 This project involved building a search engine for the Cranfield dataset using Apache Lucene, focusing on indexing, and querying 
-1,400 documents with 225 queries.
+1,400 documents with 225 queries. Note the Repository includes the trec_eval evaluation file and is thus indicated as a C repositry however all code work was completed in Java. 
 ### Pre-requisites
 Run the make command in the trec_eval folder within the repository
 ### Running
