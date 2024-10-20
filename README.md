@@ -1,4 +1,4 @@
-# Information Retrieval and Web Search Project 1
+# Information Retrieval and Web Search Project 1 - TCD Year 5
 This project involved building a search engine for the Cranfield dataset using Apache Lucene, focusing on indexing, and querying 
 1,400 documents with 225 queries.
 ### Pre-requisites
